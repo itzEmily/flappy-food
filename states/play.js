@@ -3,8 +3,16 @@ const mainState = game => ({
 
     preload: function() { 
         // Load the bird sprite
-        game.load.image('bird', 'assets/flappydonut.png')
-        game.load.image('pipe', 'assets/sushi.png');
+        game.load.image('bird1', 'assets/flappydonut.png');
+        game.load.image('bird2', 'assets/flappyavacado.png');
+        game.load.image('bird3', 'assets/flappyburger.png');
+        game.load.image('bird4', 'assets/flappycoke.png');
+        game.load.image('bird5', 'assets/flappycupcake.png');
+        game.load.image('bird6', 'assets/flappyfries.png');
+        game.load.image('bird7', 'assets/flappymarshmellow.png');
+        game.load.image('bird8', 'assets/flappystrawberry.png');
+        game.load.image('bird9', 'assets/flappysushi.png');
+        game.load.image('pipe', 'assets/marshmellow.png');
         game.load.audio('jump', 'assets/jump.wav'); 
     },
 
@@ -39,7 +47,8 @@ const mainState = game => ({
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         // Display the bird at the position x=100 and y=245
-        this.bird = game.add.sprite(100, 245, 'bird');
+        
+        this.bird = game.add.sprite(100, 245, `bird${window.img}`);
 
         // Add physics to the bird
         // Needed for: movements, gravity, collisions, etc.
@@ -59,7 +68,7 @@ const mainState = game => ({
 
         this.score = -1;
         this.labelScore = game.add.text(190, 20, "0", 
-        { font: "30px Arial", fill: "#ffffff" });  
+        { font: "30px Arial", fill: "#ffffff" }); 
 
          // Move the anchor to the left and downward
         this.bird.anchor.setTo(-0.2, 0.5); 
@@ -112,9 +121,9 @@ const mainState = game => ({
         game.state.start('menu');
     },
 
-    addOnePipe: function(x, y) {
+    addOnePipe: function(x, y, img) {
         // Create a pipe at the position x and y
-        var pipe = game.add.sprite(x, y, 'pipe');
+        var pipe = game.add.sprite(x, y, img);
     
         // Add the pipe to our previously created group
         this.pipes.add(pipe);
@@ -139,7 +148,7 @@ const mainState = game => ({
         // With one big hole at position 'hole' and 'hole + 1'
         for (var i = 0; i < 8; i++)
             if (i != hole && i != hole + 1) 
-                this.addOnePipe(400, i * 60 + 10);   
+                this.addOnePipe(400, i * 60 + 10, 'pipe');   
         
         this.score += 1;
         this.labelScore.text = this.score;
@@ -155,6 +164,9 @@ const mainState = game => ({
     
         // Set the alive property of the bird to false
         this.bird.alive = false;
+        window.score = this.score;
+            console.log("score", this.score);
+            this.restartGame(); 
     
         // Prevent new pipes from appearing
         game.time.events.remove(this.timer);

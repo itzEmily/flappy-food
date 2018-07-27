@@ -6,13 +6,17 @@ export default game => ({
     },
 
     create: function() {
+        if (window.score <= 0) {
+            window.score = 0
+        }
+
         console.log("main menu", window.highscore, window.score)
         window.highscore = parseInt(localStorage.getItem("highscore") || "0");
         if (window.score > window.highscore) {
             window.highscore = window.score;
-            localStorage.setItem("highscore", window.highscore)
-        }
-        console.log("main menu", window.highscore, window.score)
+            localStorage.setItem("highscore", window.highscore);
+        };
+        console.log("main menu", window.highscore, window.score);
 
         game.stage.backgroundColor = '#71c5cf';
 
@@ -26,7 +30,8 @@ export default game => ({
             this.state.start("resting")
         });  
 
-        var message = this.add.text(153, 170, `score\n${window.score.toString().padStart(3, 0)}`, {fontSize: '28px', fill: '#00000', textAlign: 'center'});
+
+        var message = this.add.text(153, 170, `score\n${window.score.toString().padStart(3, 0)}`, {fontSize: '28px', fill: '#00000'});
 
         var message = this.add.text(160, 250, `best\n${window.highscore.toString().padStart(3, 0)}`, {fontSize: '28px', fill: '#00000'});
     },
